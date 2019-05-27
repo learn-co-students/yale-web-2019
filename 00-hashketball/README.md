@@ -17,6 +17,15 @@
   * Make it work \(shameless green\), make it right, make it fast
 
 
+- Hashes `{}`
+- Arrays `[]`
+- String `""`
+- Numbers (ints && floats) `3.14`
+- Booleans `true/false`
+- `nil`
+- Symbols `:cool`
+
+
 
 
 
