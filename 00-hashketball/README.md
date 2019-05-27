@@ -29,7 +29,7 @@ Wait till Prince says to start on these
 1. Define a method called get_names that takes an array of instructors and returns just their names
 
 ```ruby
-instructors = [{name: 'Alex', hometown: 'upstate ny', mood: 'excited'}, {name: 'rachel', hometown: 'maine'}, {name: 'maxwell', hometwon: 'brookyln'}]
+instructors = [{name: 'Prince', hometown: 'Wetzlar, Germany', mood: 'excited'}, {name: 'Gigi', hometown: 'New York, New York'}, {name: 'Niky', hometwon: 'Queenstown, New Zealand'}]
 def get_names(instructors)
 
 end
