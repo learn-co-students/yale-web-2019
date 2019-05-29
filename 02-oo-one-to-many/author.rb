@@ -26,6 +26,7 @@ class Author
   # ever created and ** SELECTING ** the ones that belong to the particular author
   # that called it
   def books
+    # We only have access to the @@all of Books because of the method Book.all
     Book.all.select do |book|
       book.author.name == self.name
       # book.author.name == @name
