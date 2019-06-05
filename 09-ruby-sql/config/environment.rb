@@ -8,3 +8,4 @@ DB = {
 DB[:conn].results_as_hash = true
 
 require_relative '../lib/fan.rb'
+require_relative '../lib/artist.rb'
