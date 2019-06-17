@@ -1,18 +1,11 @@
 # Sinatra Intro
 
-- How the Web Works
 - HTTP Server Model (Request-Response Lifecycle)
 - Model View Controller (MVC) Pattern
 - 'Convention over configuration'
 - Request Methods
 - RESTful Routes
 
-
-### How the Web Works
-
-The internet is a network of computers all connected by cables. Most often, it's a network of smaller networks together. Think home networks, school networks, business networks, and government networks. It's commonly cited that the internet was developed by the military through DARPA (Department of Defense Advanced Research Projects Agency) and was first connected in October 1969. It really was the result of a few different types of technologies that came together to make the technology of the internet possible.
-
-The World Wide Web is a service that exists on top of the internet and is commonly how most people consume and distribute information on the internet. The web was created in 1989 by Sir Tim Berners-Lee and his colleagues at CERN (European Organization for Nuclear Research).
 
 ### HTTP Server Model
 
@@ -30,11 +23,15 @@ In a typical application you will find these three fundamental parts:
 - Controller
   - The controller provides model data to the view, and interprets user actions such as button clicks. The controller depends on the view and the model.
 
+  **Rule 1 is the golden rule of MVC**:
+> The model represents the data, and does nothing else. The model does NOT depend on the controller or the view. In other words, **THE MODEL DOES NOT INTERACT WITH THE VIEW, AND THE CONTROLLER DOES ALL THE WORK!**
+
 ### 'Convention over configuration'
 It is important for us to follow the conventions for Sinatra
 
 - Model names must correspond to tables with the same name but plural
 - Controllers need to match their filenames (`application_controller.rb` -> `ApplicationController`)
+- We need to be sure to put our files in the appropriate folders (views go into the view folder)
 
 ### Request Methods
 There are several types of request methods:
@@ -44,19 +41,15 @@ There are several types of request methods:
 - `DELETE`: We're deleting data from our database
 - `PATCH`/`PUT`: We're updating data within our database
 
-Each of these will correspond to the 4 database actions we can do
-
-### RESTful Routes
-A convention we'll follow when writing routes
-
-
-**Rule 1 is the golden rule of MVC**:
-> The model represents the data, and does nothing else. The model does NOT depend on the controller or the view. In other words, **THE MODEL DOES NOT INTERACT WITH THE VIEW, AND THE CONTROLLER DOES ALL THE WORK!**
+Each of these will correspond to the 4 database actions we can do (CRUD)
 
 ### Convention over Configuration
 Convention over configuration (also known as coding by convention) is a software design paradigm used by software frameworks that attempts to decrease the number of decisions that a developer using the framework is required to make without necessarily losing flexibility.
 
-
+# Application Flow
+This is absolutely important! You will need to understand how the from the url to the view works. Remember,
+you want type into the URL for the web browser, then it hits the application controller then it goes through
+each action then performs whatever it is supposed to then pops up into the screen.
 
 ### Helpful Packages
 
