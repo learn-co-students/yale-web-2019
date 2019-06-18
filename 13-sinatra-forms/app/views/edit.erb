@@ -1,0 +1,8 @@
+<h2>Updating an Item</h2>
+<!--  PATCH /foods/:id -->
+<form method="POST" action="/foods/<%= @food.id %>">
+  <input type="hidden" name="_method" value="PATCH">
+  <input name="name" type="text" value="<%= @food.name %>">
+  <input name="price" type="number" value="<%= @food.price %>">
+  <input type="submit">
+</form>

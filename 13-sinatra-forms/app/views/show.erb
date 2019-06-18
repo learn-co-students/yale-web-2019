@@ -1,0 +1,8 @@
+<h1><%= @food.name %></h1>
+<p>Price: <%= @food.price %></p>
+
+<!--  DELETE /foods/:id -->
+<form method="POST" action="/foods/<%= @food.id %>">
+  <input type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="Delete Food">
+</form>
