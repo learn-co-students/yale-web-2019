@@ -1,59 +1,111 @@
-# Sinatra Intro
+# Sinatra Forms
 
-- HTTP Server Model (Request-Response Lifecycle)
-- Model View Controller (MVC) Pattern
-- 'Convention over configuration'
-- Request Methods
-- RESTful Routes
+Today we learned about the other 5 RESTful routes.
 
+| Request Method | PATH | Description |
+| ------- | ------ | ------ |
+| GET  | `/foods/new` | Form to display new food |
+| POST  | `/foods` | After submitting a new food, create it in the database |
+| GET  | `/foods/:id/edit` | Form to display a food to edit |
+| PATCH  | `/foods/:id` | After submitting, edit it in the database |
+| DELETE  | `/foods/:id` | Deletes an item from the database |
 
-### HTTP Server Model
+## TOC
 
-HTTP (Hypertext Transfer Protocol) is the language of the web and describes how webpages and files are sent over the internet. The protocol is based on a model of client and server: the client is either a program or a browser, and the server is the computer that has information about the web page.
+- [Basics of forms](#basics-of-forms)
+- [HTML](#html)
+- [Inside the Controller](#inside-the-controller)
+- [`method_override`](#method_override)
+- [Using Multiple Controllers](#using-multiple-controllers)
 
-The server that we make this request to is always located using a URL or URI which is composed of a few parts. Consider this URI: `https://go.flatironschool.com/getting_started`. The first part is the protocol `http://` or `https://` at the beginning of the URI, which describes the language that we're using to communicate with this website. The next is the domain which can either be an IP address or a string like `go.flatironschool.com`. When the domain is formatted as a string, we can divide each part of the string into separate parts: com is the top-level domain, flatironschool is the second-level domain, and we can continue with subdomains like go in the example above. Following the domain is a port address which is formatted like `go.flatironschool.com:80`, but these ports are implicit when accessing servers over either HTTP or HTTPS. And lastly is the resource that you want from this domain. In our example, it's the `/getting_started` resource.
+## Basics of Forms
 
-### MVC
+### HTML 
+When dealing with forms, they must have two attributes, the method and the action.
 
-In a typical application you will find these three fundamental parts:
-- Model
-  - The model represents the data, and does nothing else. The model does NOT depend on the controller or the view.
-- View
-  - The view displays the data through the controller, and sends user actions (e.g. button clicks) to the controller. The view is independent of both the model and the controller.
-- Controller
-  - The controller provides model data to the view, and interprets user actions such as button clicks. The controller depends on the view and the model.
+- `method` describes which Request Method we're making (`GET` or `POST`)
+  - Which can only by default be `GET` or `POST`
+- `action` describes what URL are we going to for the request
+  - It is not ever going to be the URL we're currently on
 
-  **Rule 1 is the golden rule of MVC**:
-> The model represents the data, and does nothing else. The model does NOT depend on the controller or the view. In other words, **THE MODEL DOES NOT INTERACT WITH THE VIEW, AND THE CONTROLLER DOES ALL THE WORK!**
+Here's an example:
 
-### 'Convention over configuration'
-It is important for us to follow the conventions for Sinatra
+```html
+<form method="POST" action="/foods">
+  <input name="name" type="text" />
+  <input name="price" type="number" />
+  <input type="submit" />
+</form>
+```
 
-- Model names must correspond to tables with the same name but plural
-- Controllers need to match their filenames (`application_controller.rb` -> `ApplicationController`)
-- We need to be sure to put our files in the appropriate folders (views go into the view folder)
+This is a form that will perform a `POST` request to `/foods`. For the data 
+of the form to get sent to our controller, we want to make sure each input
+that has user data has a `name` attribute on it.
 
-### Request Methods
-There are several types of request methods:
+### Inside the Controller
 
-- `GET`: We're retrieving information for our application
-- `POST`: We're adding data to our database
-- `DELETE`: We're deleting data from our database
-- `PATCH`/`PUT`: We're updating data within our database
+In RESTful convention, we need one route that will show us the new form and
+then one which will handle the request the form makes.
 
-Each of these will correspond to the 4 database actions we can do (CRUD)
+```ruby
+# inside the controller
 
-### Convention over Configuration
-Convention over configuration (also known as coding by convention) is a software design paradigm used by software frameworks that attempts to decrease the number of decisions that a developer using the framework is required to make without necessarily losing flexibility.
+  get "/foods/new" do 
+    # renders the form
+    erb :index
+  end
 
-# Application Flow
-This is absolutely important! You will need to understand how the from the url to the view works. Remember,
-you want type into the URL for the web browser, then it hits the application controller then it goes through
-each action then performs whatever it is supposed to then pops up into the screen.
+  post "/foods" do
+    # handles creating that item
+    food = Food.create(name: params[:name], price: params[:price])
+    redirect to("/foods/#{food.id}")
+  end
+```
 
-### Helpful Packages
+With `POST`, `PATCH` and `DELETE`, they need to fulfill a new request
+to render out the contents to the screen so we'll use a `redirect`.
 
-* For Atom, you will want to go into Atom > Preferences > Install Packages > Add the
-package 'Rails Snippets'
-* For VS Code, you'll want to go into Code > Prefences > Extensions > Search for
-'Rails Snippets' (might be the second one)
+## `method_override`
+
+In order for your form to do anything beyond `POST` and `GET` inside of the
+form, you will need to make sure your controller is configured to perform
+the `method_override` hack. In your configure you'll need `set :method_override, true`:
+
+```ruby
+class ApplicationController < Sinatra::Base
+  configure do
+    # ...
+    set :method_override, true
+  end
+end
+```
+
+That way in your forms where you want to do `PATCH`, `DELETE`, `PUT`, you just
+need a hidden input with a name of `_method` and has a value of the request method
+you want to make.
+
+```html
+<form method="POST" action="/foods">
+  <input type="hidden" name="_method" value="PATCH">
+</form>
+```
+
+So this will not make a `POST` request but instead a `PATCH` request!
+
+### Using Multiple Controllers
+
+This is a bit of a precursor to what we will be doing for the rest of the time
+with Sinatra! We want to follow that good pattern that we learned about called
+"separation of concerns", we don't want all of our logic to live inside of the
+one controller. Our apps will have a bunch of models and so we want to be sure
+to separate out the logic for the each associated model. So we'll want to build
+out a new controller called `FoodsController` or if we had a dog model we'd say
+`DogsController`.
+
+The biggest thing you need to do after you create the file is go into the `config.ru`
+and make sure to write
+
+```ruby
+use FoodsController # THE USE MUST GO ABOVE THE RUN
+run ApplicationController
+```
