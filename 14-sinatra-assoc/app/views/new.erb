@@ -1,0 +1,11 @@
+<h2>Create a Horse</h2>
+<form method="POST" action="/horses">
+  <input placeholder="Horsey" name="name" type="text">
+  <input placeholder="White" type="text" name="color">
+  <select name="carousel_id">
+    <% @carousels.each do |carousel| %>
+      <option value="<%= carousel.id %>"><%= carousel.name %></option>
+    <% end %>
+  </select>
+  <input type="submit">
+</form>

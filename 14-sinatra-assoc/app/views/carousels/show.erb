@@ -1,0 +1,6 @@
+<h2><%= @carousel.name %> - <%= @carousel.location %></h2>
+<ul>
+<% @carousel.horses.each do |horse| %>
+  <li><%= horse.name %> - <%= horse.color %></li>
+<% end %>
+</ul>
