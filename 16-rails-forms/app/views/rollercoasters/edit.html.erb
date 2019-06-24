@@ -1,0 +1,16 @@
+<h2>Edit <%= @rollercoaster.name %></h2>
+<%= form_for @rollercoaster do |f| %>
+  <%= f.text_field :name %>
+  <%= f.text_field :location %>
+  <%= f.number_field :height %>
+  <%= f.number_field :length %>
+  <%= f.submit %>
+<% end %>
+
+<%# form_tag("/rollercoasters/#{@rollercoaster.id}", method: "PATCH") do %>
+  <%# text_field_tag "name", @rollercoaster.name %>
+  <%# text_field_tag "location", @rollercoaster.location %>
+  <%# number_field_tag "height", @rollercoaster.height %>
+  <%# number_field_tag "length", @rollercoaster.length %>
+  <%# submit_tag "Create that new Rollercoaster"%>
+<%# end %>

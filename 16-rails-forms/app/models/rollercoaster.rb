@@ -1,0 +1,2 @@
+class Rollercoaster < ApplicationRecord
+end
