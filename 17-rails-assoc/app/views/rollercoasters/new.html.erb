@@ -1,0 +1,41 @@
+<% if flash[:error] %>
+  <% flash[:error].each do |error_msg| %>
+    <li><%= error_msg %></li>
+  <% end %>
+<% end %>
+
+
+<%# REQUIRES SOMETHING FROM THE DATABASE %>
+<%= form_for @rollercoaster do |f| %>
+  <div>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  </div>
+  <div>
+  <%= f.label :location %>
+  <%= f.text_field :location %>
+  </div>
+  <div>
+  <%= f.label :height %>
+  <%= f.number_field :height %>
+  </div>
+  <div>
+  <%= f.label :length %>
+  <%= f.number_field :length %>
+  </div>
+  <div>
+  <%= f.label :park_id %>
+  <%= f.collection_select :park_id, @parks, :id, :name %>
+  <%# f.collection_select :method, collection, value shown to the params, value to the user %>
+  </div>
+  <%= f.submit %>
+<% end %>
+
+
+<%# form_tag("/rollercoasters") do %>
+  <%# text_field_tag "name" %>
+  <%# text_field_tag "location" %>
+  <%# number_field_tag "height" %>
+  <%# number_field_tag "length" %>
+  <%# submit_tag "Create that new Rollercoaster"%>
+<%# end %>
