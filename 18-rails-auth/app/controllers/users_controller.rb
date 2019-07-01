@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.create(user_params)
 
     if @user.valid?
-      sessions[:user_id] = @user.id # Logs me in after signing up
+      session[:user_id] = @user.id # Logs me in after signing up
       redirect_to user_path(@user)
     else
       flash[:error] = @user.errors.full_messages
